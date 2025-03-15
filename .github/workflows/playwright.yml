@@ -26,14 +26,22 @@ jobs:
         with:
           node-version: 16  # Використовуємо Node.js версії 16
 
-      # Крок 3: Встановлюємо залежності
-      - name: Install dependencies
-        run: npm install
+      # Крок 3: Встановлюємо залежності в локальну директорію
+      - name: Install dependencies locally
+        run: |
+          mkdir -p .npm-global
+          npm config set prefix "$(pwd)/.npm-global"
+          export PATH="$(pwd)/.npm-global/bin:$PATH"
+          npm install
 
       # Крок 4: Встановлюємо браузери Playwright
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+        run: |
+          export PATH="$(pwd)/.npm-global/bin:$PATH"
+          npx playwright install --with-deps
 
       # Крок 5: Запускаємо тести Playwright
       - name: Run Playwright tests
-        run: npx playwright test
+        run: |
+          export PATH="$(pwd)/.npm-global/bin:$PATH"
+          npx playwright test
