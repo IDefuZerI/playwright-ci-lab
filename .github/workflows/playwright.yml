@@ -20,17 +20,17 @@ jobs:
       - name: Check directory structure
         run: ls -la  # Цей крок допоможе перевірити структуру директорій
       - name: Install dependencies
-        working-directory: playwright-ci-lab  # Змініть на свою директорію, якщо вона називається інакше
+        working-directory: e2e-tests  # Основна директорія для тестів
         run: npm install
       - name: Install Playwright Browsers
-        working-directory: playwright-ci-lab  # Змініть на свою директорію, якщо вона називається інакше
+        working-directory: e2e-tests  # Основна директорія для тестів
         run: npx playwright install --with-deps
       - name: Run Playwright tests
-        working-directory: playwright-ci-lab  # Змініть на свою директорію, якщо вона називається інакше
+        working-directory: e2e-tests  # Основна директорія для тестів
         run: npx playwright test
       - uses: actions/upload-artifact@v4
         if: ${{ cancelled() }}
         with:
           name: playwright-report
-          path: playwright-ci-lab/playwright-automation/playwright-automation-report/  # Змініть на свою директорію, якщо звіти зберігаються в іншій папці
+          path: e2e-tests/reports/  # Директорія для звітів
           retention-days: 30
