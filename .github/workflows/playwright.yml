@@ -17,18 +17,20 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18
+      - name: Check directory structure
+        run: ls -la  # Цей крок допоможе перевірити структуру директорій
       - name: Install dependencies
-        working-directory: playwright
+        working-directory: playwright-ci-lab  # Змініть на свою директорію, якщо вона називається інакше
         run: npm install
       - name: Install Playwright Browsers
-        working-directory: playwright
+        working-directory: playwright-ci-lab  # Змініть на свою директорію, якщо вона називається інакше
         run: npx playwright install --with-deps
       - name: Run Playwright tests
-        working-directory: playwright
+        working-directory: playwright-ci-lab  # Змініть на свою директорію, якщо вона називається інакше
         run: npx playwright test
       - uses: actions/upload-artifact@v4
         if: ${{ cancelled() }}
         with:
           name: playwright-report
-          path: playwright/playwright-report/
+          path: playwright-ci-lab/playwright-automation/playwright-automation-report/  # Змініть на свою директорію, якщо звіти зберігаються в іншій папці
           retention-days: 30
