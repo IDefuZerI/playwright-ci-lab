@@ -30,4 +30,4 @@ jobs:
 
       # Крок 4: Запускаємо тести Playwright
       - name: Run Playwright tests
-        run: npm test
+        run: npx playwright test
