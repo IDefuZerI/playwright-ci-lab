@@ -1,4 +1,3 @@
-# .github/workflows/playwright.yml
 name: Playwright Tests
 
 on:
@@ -30,8 +29,16 @@ jobs:
 
       # Крок 4: Встановлюємо браузери Playwright
       - name: Install Playwright browsers
-        run: npx playwright install
+        run: npx playwright install --with-deps  # Додано --with-deps для встановлення залежностей
 
       # Крок 5: Запускаємо тести Playwright
       - name: Run Playwright tests
         run: npx playwright test
+
+      # Крок 6: Завантажуємо HTML звіт
+      - name: Upload HTML report
+        if: always()  # Завантажуємо звіт навіть якщо тести не пройшли
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-report
+          path: playwright-report  # Переконайтеся, що цей шлях вірний
