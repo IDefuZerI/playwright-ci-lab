@@ -30,6 +30,7 @@ jobs:
       # Крок 4: Встановлюємо браузери Playwright
       - name: Install Playwright browsers
         run: |
+          mkdir -p ${{ github.workspace }}/.playwright-browsers
           export PLAYWRIGHT_BROWSERS_PATH=${{ github.workspace }}/.playwright-browsers
           npx playwright install --with-deps
 
