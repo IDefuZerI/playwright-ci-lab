@@ -28,6 +28,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Крок 4: Запускаємо тести Playwright
+      # Крок 4: Встановлюємо браузери Playwright
+      - name: Install Playwright browsers
+        run: npx playwright install
+
+      # Крок 5: Запускаємо тести Playwright
       - name: Run Playwright tests
         run: npx playwright test
