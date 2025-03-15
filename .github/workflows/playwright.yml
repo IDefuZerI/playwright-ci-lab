@@ -1,0 +1,33 @@
+# .github/workflows/playwright.yml
+name: Playwright Tests
+
+on:
+  push:
+    branches:
+      - main  # Запускати тести при пуші в гілку main
+  pull_request:
+    branches:
+      - main  # Запускати тести при пул-реквестах в гілку main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Використовуємо останню версію Ubuntu
+
+    steps:
+      # Крок 1: Отримуємо код з репозиторію
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Крок 2: Налаштовуємо Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16  # Використовуємо Node.js версії 16
+
+      # Крок 3: Встановлюємо залежності
+      - name: Install dependencies
+        run: npm install
+
+      # Крок 4: Запускаємо тести Playwright
+      - name: Run Playwright tests
+        run: npm test
