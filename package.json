@@ -2,19 +2,19 @@
   "name": "playwright-automation",
   "version": "1.0.0",
   "main": "index.js",
-"scripts": {
-  "test": "playwright test"
-},
+  "scripts": {
+    "test": "playwright test"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@playwright/test": "^1.50.1",
+    "@playwright/test": "^1.51.0",
     "jest": "^29.7.0",
     "playwright": "^1.50.1"
   },
   "engines": {
-  "node": ">=16"
-}
+    "node": ">=16"
+  }
 }
