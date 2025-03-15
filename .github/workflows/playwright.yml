@@ -1,37 +1,35 @@
-# .github/workflows/playwright.yml
 name: Playwright Tests
 
 on:
   push:
-    branches:
-      - main  # Запускати тести при пуші в гілку main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main  # Запускати тести при пул-реквестах в гілку main
+    branches: [ main ]
 
 jobs:
   test:
-    runs-on: ubuntu-latest  # Використовуємо останню версію Ubuntu
+    runs-on: ubuntu-latest
 
     steps:
-      # Крок 1: Отримуємо код з репозиторію
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      # Крок 2: Налаштовуємо Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16  # Використовуємо Node.js версії 16
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
 
-      # Крок 3: Встановлюємо залежності
-      - name: Install dependencies
-        run: npm install
+    - name: Install dependencies
+      run: npm install
 
-      # Крок 4: Встановлюємо браузери Playwright
-      - name: Install Playwright browsers
-        run: npx playwright install
+    - name: Install Playwright browsers
+      run: npx playwright install
 
-      # Крок 5: Запускаємо тести Playwright
-      - name: Run Playwright tests
-        run: npx playwright test
+    - name: Run Playwright tests
+      run: npx playwright test
+
+    - name: Upload HTML report
+      uses: actions/upload-artifact@v2
+      with:
+        name: playwright-report
+        path: playwright-report
