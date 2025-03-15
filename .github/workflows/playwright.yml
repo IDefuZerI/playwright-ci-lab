@@ -12,6 +12,9 @@ jobs:
   test:
     runs-on: ubuntu-latest  # Використовуємо останню версію Ubuntu
 
+    container:
+      image: mcr.microsoft.com/playwright:focal  # Використовуємо офіційний Docker-образ Playwright
+
     steps:
       # Крок 1: Отримуємо код з репозиторію
       - name: Checkout code
@@ -29,10 +32,7 @@ jobs:
 
       # Крок 4: Встановлюємо браузери Playwright
       - name: Install Playwright browsers
-        run: |
-          mkdir -p ${{ github.workspace }}/.playwright-browsers
-          export PLAYWRIGHT_BROWSERS_PATH=${{ github.workspace }}/.playwright-browsers
-          npx playwright install --with-deps
+        run: npx playwright install --with-deps
 
       # Крок 5: Запускаємо тести Playwright
       - name: Run Playwright tests
