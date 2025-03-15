@@ -1,47 +1,29 @@
 name: Playwright Tests
 
 on:
-  push:
-    branches:
-      - main  # Запускати тести при пуші в гілку main
-  pull_request:
-    branches:
-      - main  # Запускати тести при пул-реквестах в гілку main
+  workflow_dispatch:
 
 jobs:
   test:
-    runs-on: ubuntu-latest  # Використовуємо останню версію Ubuntu
-
-    container:
-      image: mcr.microsoft.com/playwright:focal  # Використовуємо офіційний Docker-образ Playwright
-
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
     steps:
-      # Крок 1: Отримуємо код з репозиторію
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      # Крок 2: Налаштовуємо Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16  # Використовуємо Node.js версії 16
-
-      # Крок 3: Встановлюємо залежності в локальну директорію
-      - name: Install dependencies locally
-        run: |
-          mkdir -p .npm-global
-          npm config set prefix "$(pwd)/.npm-global"
-          export PATH="$(pwd)/.npm-global/bin:$PATH"
-          npm install
-
-      # Крок 4: Встановлюємо браузери Playwright
-      - name: Install Playwright browsers
-        run: |
-          export PATH="$(pwd)/.npm-global/bin:$PATH"
-          npx playwright install --with-deps
-
-      # Крок 5: Запускаємо тести Playwright
+          node-version: 18
+      - name: Install dependencies
+        working-directory: playwright
+        run: npm install
+      - name: Install Playwright Browsers
+        working-directory: playwright
+        run: npx playwright install --with-deps
       - name: Run Playwright tests
-        run: |
-          export PATH="$(pwd)/.npm-global/bin:$PATH"
-          npx playwright test
+        working-directory: playwright
+        run: npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: ${{ cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright/playwright-report/
+          retention-days: 30
